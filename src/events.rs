@@ -1,25 +1,34 @@
-use soroban_sdk::{symbol_short, Env, Symbol};
+use soroban_sdk::{Env, Symbol};
 
-/// Emit a route found event
-pub fn emit_route_found(env: &Env, source: Symbol, destination: Symbol, amount: i128) {
+pub fn emit_route_found(
+    env: &Env,
+    source_asset: Symbol,
+    dest_asset: Symbol,
+    amount: i128,
+    estimated_output: i128,
+    hop_count: u32,
+) {
     env.events().publish(
-        (symbol_short!("route_found"),),
-        (source, destination, amount),
+        (Symbol::new(env, "route_found"), source_asset, dest_asset),
+        (amount, estimated_output, hop_count),
     );
 }
 
-/// Emit a route executed event
-pub fn emit_route_executed(env: &Env, source: Symbol, destination: Symbol, amount: i128) {
+pub fn emit_route_executed(
+    env: &Env,
+    source_asset: Symbol,
+    dest_asset: Symbol,
+    input_amount: i128,
+    output_amount: i128,
+    total_fee: i128,
+) {
     env.events().publish(
-        (symbol_short!("executed"),),
-        (source, destination, amount),
+        (Symbol::new(env, "route_exec"), source_asset, dest_asset),
+        (input_amount, output_amount, total_fee),
     );
 }
 
-/// Emit a fee collected event
-pub fn emit_fee_collected(env: &Env, amount: i128) {
-    env.events().publish(
-        (symbol_short!("fee_collected"),),
-        (amount,),
-    );
+pub fn emit_fee_updated(env: &Env, old_fee: i128, new_fee: i128) {
+    env.events()
+        .publish((Symbol::new(env, "fee_updated"),), (old_fee, new_fee));
 }

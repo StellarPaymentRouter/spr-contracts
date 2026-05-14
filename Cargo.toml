@@ -3,8 +3,12 @@ name = "spr-contracts"
 version = "0.1.0"
 edition = "2021"
 
+[features]
+default = []
+testutils = ["soroban-sdk/testutils"]
+
 [lib]
-crate-type = ["cdylib"]
+crate-type = ["cdylib", "rlib"]
 
 [dependencies]
 soroban-sdk = "20.0"

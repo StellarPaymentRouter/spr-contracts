@@ -4,10 +4,10 @@ build:
 	cargo build --target wasm32-unknown-unknown --release
 
 test:
-	cargo test
+	cargo test --features testutils
 
 test-verbose:
-	cargo test -- --nocapture --test-threads=1
+	cargo test --features testutils -- --nocapture --test-threads=1
 
 clean:
 	cargo clean
